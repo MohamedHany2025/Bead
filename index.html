@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>انجث يا</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            direction: rtl;
+            padding: 0;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 90%;
+            position: relative;
+            overflow: hidden;
+            color: #333;
+        }
+        .header {
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .title {
+            font-size: 42px;
+            font-weight: 900;
+            color: #ff4757;
+            text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+            margin: 0;
+            animation: titleGlow 2s infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { text-shadow: 3px 3px 0 rgba(0,0,0,0.1); }
+            to { text-shadow: 3px 3px 15px rgba(255, 71, 87, 0.7); }
+        }
+        .time-display {
+            font-size: 36px;
+            font-weight: bold;
+            color: #2f3542;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border: 3px solid #dfe4ea;
+        }
+        .counter-box {
+            background: linear-gradient(135deg, #70a1ff, #1e90ff);
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        .counter-label {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: white;
+            opacity: 0.9;
+        }
+        .counter {
+            font-size: 72px;
+            font-weight: 900;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin: 10px 0;
+            font-family: 'Digital', 'Courier New', monospace;
+        }
+        .controls {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 160px;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0,0,0,0.2);
+        }
+        button:active {
+            transform: translateY(-1px);
+        }
+        #startBtn {
+            background: linear-gradient(135deg, #2ed573, #1dd1a1);
+            color: white;
+        }
+        #startBtn:hover {
+            background: linear-gradient(135deg, #26c464, #17be96);
+        }
+        #startBtn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #stopBtn {
+            background: linear-gradient(135deg, #ff6b81, #ff4757);
+            color: white;
+        }
+        #stopBtn:hover {
+            background: linear-gradient(135deg, #ff5a72, #ff3a4a);
+        }
+        #stopBtn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        #testBtn {
+            background: linear-gradient(135deg, #ffa502, #ff7f00);
+            color: white;
+        }
+        #testBtn:hover {
+            background: linear-gradient(135deg, #ff9900, #ff6b00);
+        }
+        .status-box {
+            background: #f1f2f6;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-right: 5px solid #70a1ff;
+        }
+        .status {
+            font-size: 20px;
+            font-weight: bold;
+            color: #2f3542;
+            margin: 10px 0;
+        }
+        .pulse-animation {
+            animation: pulse 0.5s ease-in-out;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .warning {
+            background: #fff9e6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 25px;
+            border-right: 5px solid #ffa502;
+            font-size: 14px;
+            color: #666;
+        }
+        .volume-control {
+            margin: 20px 0;
+        }
+        .volume-slider {
+            width: 80%;
+            margin: 10px 0;
+        }
+        .sound-wave {
+            display: flex;
+            justify-content: center;
+            gap: 3px;
+            height: 30px;
+            margin: 15px 0;
+        }
+        .sound-bar {
+            width: 4px;
+            background: #70a1ff;
+            border-radius: 2px;
+            animation: soundWave 1s infinite ease-in-out;
+        }
+        .sound-bar:nth-child(2) { animation-delay: 0.1s; }
+        .sound-bar:nth-child(3) { animation-delay: 0.2s; }
+        .sound-bar:nth-child(4) { animation-delay: 0.3s; }
+        .sound-bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes soundWave {
+            0%, 100% { height: 10px; }
+            50% { height: 30px; }
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">انجث يا</h1>
+        </div>
+        
+        <div class="time-display" id="currentTime">--:--:--</div>
+        
+        <div class="counter-box">
+            <div class="counter-label">يكوتي على الوقت 😂</div>
+            <div class="counter" id="counter">2</div>
+            <div class="counter-label">ثانية</div>
+            <div class="sound-wave">
+                <div class="sound-bar"></div>
+                <div class="sound-bar"></div>
+                <div class="sound-bar"></div>
+                <div class="sound-bar"></div>
+                <div class="sound-bar"></div>
+            </div>
+        </div>
+        
+        <div class="status-box">
+            <div class="status" id="status">بيشتغل كل 2 ثانيه 😂</div>
+        </div>
+        
+        <div class="controls" id="controls">
+            <button id="startBtn" disabled>
+                
+            </button>
+            <button id="stopBtn">
+            
+            </button>
+            <button id="testBtn">
+                
+            </button>
+        </div>
+        
+        <div class="volume-control" id="volume-control">
+            <label for="volume">🔊 مستوى الصوت:</label>
+            <input type="range" id="volume" class="volume-slider" min="0" max="1" step="1" value="1">
+        </div>
+        
+        
+        <div class="footer">
+            <span>بواسطة محمد هاني الي هانك يا حازم</span>
+        </div>
+    </div>
+
+    <script>
+        let timer = null;
+        let audio = null;
+        const intervalSeconds = 2; // كل 2 ثانية
+        let timeLeft = intervalSeconds;
+        let isRunning = true;
+        let lastPlayTime = null;
+        let volumeLevel = 1;
+
+        // عناصر DOM
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const testBtn = document.getElementById('testBtn');
+        const statusEl = document.getElementById('status');
+        const counterEl = document.getElementById('counter');
+        const currentTimeEl = document.getElementById('currentTime');
+        const lastPlayedEl = document.getElementById('lastPlayed');
+        const volumeSlider = document.getElementById('volume');
+
+        // اخفاء الDivs
+        document.getElementById("controls").style.display = "none";
+        document.getElementById("volume-control").style.display = "none";
+
+
+
+        // تحديث الوقت الحالي
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('ar-EG');
+            currentTimeEl.textContent = timeString;
+            
+            // تحديث عنوان الصفحة مع الوقت
+            document.title = `انجث يا - ${timeString}`;
+        }
+
+        // تحميل ملف الصوت Recording.m4a
+        function loadAudio() {
+            try {
+                audio = new Audio('Recording.m4a');
+                
+                audio.addEventListener('error', function() {
+                    console.log('لم يتم العثور على Recording.m4a، استخدام صوت بديل');
+                    // صوت تنبيه بديل
+                    audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-alarm-digital-clock-beep-989.mp3');
+                    setupAudio();
+                });
+                
+                audio.addEventListener('loadeddata', function() {
+                    console.log('تم تحميل ملف الصوت بنجاح');
+                });
+                
+                setupAudio();
+                
+            } catch (error) {
+                console.error('خطأ في تحميل الصوت:', error);
+            }
+        }
+
+        // إعداد إعدادات الصوت
+        function setupAudio() {
+            if (!audio) return;
+            audio.volume = volumeLevel;
+            audio.preload = 'auto';
+        }
+
+        // تحديث مستوى الصوت
+        volumeSlider.addEventListener('input', function() {
+            volumeLevel = parseFloat(this.value);
+            if (audio) {
+                audio.volume = volumeLevel;
+            }
+        });
+
+        // تشغيل صوت التنبيه
+        function playAlert() {
+            if (!audio) return;
+            
+            try {
+                // إعادة تعيين وقت الصوت
+                audio.currentTime = 0;
+                
+                // تشغيل الصوت
+                audio.play().then(() => {
+                    console.log("تم البيضان بنجاح 😂");
+                    
+                    // تحديث وقت آخر تشغيل
+                    const now = new Date();
+                    lastPlayTime = now;
+                    lastPlayedEl.textContent = now.toLocaleTimeString('ar-EG');
+                    
+                    // تأثير بصرية
+                    counterEl.classList.add('pulse-animation');
+                    setTimeout(() => {
+                        counterEl.classList.remove('pulse-animation');
+                    }, 500);
+                    
+                }).catch(error => {
+                    console.log('خطأ في تشغيل الصوت:', error);
+                    // محاولة تفعيل الصوت عن طريق تفاعل المستخدم
+                    if (error.name === 'NotAllowedError') {
+                        statusEl.textContent = '👆 الرجاء النقر على الصفحة لتفعيل الصوت';
+                    }
+                });
+            } catch (error) {
+                console.error('خطأ في تشغيل الصوت:', error);
+            }
+        }
+
+        // تحديث العداد
+        function updateCounter() {
+            counterEl.textContent = timeLeft;
+            
+            // تغيير اللون حسب الوقت المتبقي
+            if (timeLeft <= 0.5) {
+                counterEl.style.color = '#ff4757';
+            } else if (timeLeft <= 1) {
+                counterEl.style.color = '#ffa502';
+            } else {
+                counterEl.style.color = '#ffffff';
+            }
+        }
+
+        // بدء المنبه
+        function startAlarm() {
+            if (timer) clearInterval(timer);
+            
+            isRunning = true;
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+            statusEl.textContent = 'تشغيل كل ثنيتين بيض 😂';
+            statusEl.style.color = '#2ed573';
+            
+            timeLeft = intervalSeconds;
+            updateCounter();
+            
+            // تشغيل فوري عند البدء
+            playAlert();
+            
+            // بدء العداد
+            timer = setInterval(() => {
+                timeLeft--;
+                updateCounter();
+                
+                if (timeLeft <= 0) {
+                    playAlert();
+                    timeLeft = intervalSeconds;
+                    updateCounter();
+                }
+            }, 1000);
+            
+            console.log('تم بدء المنبه كل 2 ثانية');
+        }
+
+        // إيقاف المنبه
+        function stopAlarm() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+            
+            isRunning = false;
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+            statusEl.textContent = '⏸️ التنبيه متوقف مؤقتاً';
+            statusEl.style.color = '#ff4757';
+            counterEl.textContent = '0';
+            counterEl.style.color = '#ffffff';
+            
+            console.log('تم إيقاف المنبه');
+        }
+
+        // تجربة الصوت
+        testBtn.addEventListener('click', function() {
+            playAlert();
+            statusEl.textContent = '🔊 جاري اختبار الصوت...';
+            setTimeout(() => {
+                if (isRunning) {
+                    statusEl.textContent = '🚀 جاري التشغيل التلقائي كل 2 ثانية';
+                }
+            }, 1000);
+        });
+
+        // التعامل مع الأزرار
+        startBtn.addEventListener('click', startAlarm);
+        stopBtn.addEventListener('click', stopAlarm);
+
+        // بدء التشغيل التلقائي عند تحميل الصفحة
+        window.addEventListener('load', function() {
+            console.log('تم تحميل الصفحة، بدء التشغيل التلقائي...');
+            
+            // تحميل الصوت
+            loadAudio();
+            
+            // تحديث الوقت أول مرة
+            updateCurrentTime();
+            
+            // تحديث الوقت كل ثانية
+            setInterval(updateCurrentTime, 1000);
+            
+            // تأخير بسيط لضمان تحميل الصفحة بالكامل
+            setTimeout(() => {
+                startAlarm();
+                
+                // محاولة تفعيل الصوت تلقائياً
+                if (audio) {
+                    audio.play().then(() => {
+                        audio.pause();
+                        audio.currentTime = 0;
+                    }).catch(error => {
+                        console.log('تلميح: النقر على الصفحة لتفعيل الصوت');
+                    });
+                }
+            }, 1500);
+        });
+
+        // إضافة تفاعل مع نقر المستخدم لتفعيل الصوت
+        document.addEventListener('click', function() {
+            if (!audio) return;
+            
+            // محاولة تشغيل وإيقاف فوري لتفعيل الصوت
+            audio.play().then(() => {
+                audio.pause();
+                audio.currentTime = 0;
+                statusEl.textContent = '✅ تم تفعيل الصوت بنجاح!';
+                setTimeout(() => {
+                    if (isRunning) {
+                        statusEl.textContent = '🚀 جاري التشغيل التلقائي كل 2 ثانية';
+                    }
+                }, 1500);
+            }).catch(() => {
+                // تجاهل الأخطاء
+            });
+        }, { once: true }); // مرة واحدة فقط
+
+        // تحديث العداد في عنوان الصفحة
+        setInterval(() => {
+            if (isRunning && timer) {
+                document.title = `⏱️${timeLeft}s | انجث يا - ${new Date().toLocaleTimeString('ar-EG', {hour12: false})}`;
+            }
+        }, 100);
+
+        // إظهار رسالة تحذير عند مغادرة الصفحة
+        window.addEventListener('beforeunload', function(e) {
+            if (isRunning) {
+                e.preventDefault();
+                e.returnValue = 'التنبيه لا يزال يعمل كل 2 ثانية. هل تريد المغادرة؟';
+            }
+        });
+
+        // إضافة اختصار لوحة المفاتيح للمسافة للتحكم
+        document.addEventListener('keydown', function(e) {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (isRunning) {
+                    stopAlarm();
+                } else {
+                    startAlarm();
+                }
+            }
+            
+            // اختصار Esc لإيقاف الصوت
+            if (e.code === 'Escape' && audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        });
+
+        // تحديث أولي للعداد
+        updateCounter();
+        setupAudio();
+        loadAudio();
+        playAlert();
+    </script>
+</body>
+</html>
